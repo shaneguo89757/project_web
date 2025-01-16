@@ -47,20 +47,28 @@ defineProps({
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 500;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.month-button:hover {
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+@media (hover: hover) {
+  .month-button:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media (hover: none) {
+  .month-button:active {
+    background: rgba(255, 255, 255, 0.25);
+  }
 }
 
 .month-button:active {
-  transform: translateY(-1px);
+  transform: translateY(0);
 }
 </style> 
