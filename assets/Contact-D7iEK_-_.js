@@ -1,1 +1,0 @@
-import{_ as o,c,a as t,o as n}from"./index-CQ3Q9GI2.js";const a={},s={class:"contact-container"};function r(_,e){return n(),c("div",s,e[0]||(e[0]=[t("h2",null,"聯絡我們",-1),t("p",null,"歡迎與我們聯繫！",-1)]))}const d=o(a,[["render",r],["__scopeId","data-v-6f046e97"]]);export{d as default};
