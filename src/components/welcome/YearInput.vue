@@ -74,16 +74,11 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
   color: white;
-}
-
-.year-input-wrapper input::-webkit-inner-spin-button,
-.year-input-wrapper input::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.year-input-wrapper input[type=number] {
-  -moz-appearance: textfield;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+  border-radius: 12px;
+  width: 100%;
+  padding: 15px 20px;
 }
 
 .year-label {

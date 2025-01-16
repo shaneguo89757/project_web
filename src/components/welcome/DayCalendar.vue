@@ -117,47 +117,28 @@ const handleSelect = (day) => {
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.day-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 1;
-  border-radius: inherit;
+@media (hover: hover) {
+  .day-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
 }
 
-.day-button span {
-  position: relative;
-  z-index: 2;
-  transition: all 0.3s ease;
-}
-
-.day-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
-}
-
-.day-button:hover:not(:disabled)::before {
-  opacity: 1;
-}
-
-.day-button:hover:not(:disabled) span {
-  color: white;
+@media (hover: none) {
+  .day-button:active:not(:disabled) {
+    background: rgba(255, 255, 255, 0.25);
+  }
 }
 
 .day-button:active:not(:disabled) {
-  transform: translateY(-1px);
+  transform: translateY(0);
 }
 
 .day-button.other-month {
