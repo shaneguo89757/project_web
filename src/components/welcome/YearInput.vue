@@ -7,7 +7,9 @@
     <div class="input-container">
       <div class="year-input-wrapper">
         <input 
-          type="number"
+          type="tel"
+          inputmode="numeric"
+          pattern="[0-9]*"
           v-model="inputYear"
           placeholder="例如：1990"
           @keyup.enter="handleSubmit"
