@@ -65,7 +65,7 @@ const props = defineProps({
 // 生成星期序列
 const weekdaySequence = computed(() => {
   const start = new Date(props.year, props.month - 1, props.day).getDay() || 7
-  return Array.from({ length: 7 }, (_, i) => ((start + i - 1) % 7) + 1)
+  return Array.from({ length: 7 }, (_, i) => ((start + i) % 7) + 1)
 })
 
 // 生成月份序列
@@ -105,27 +105,27 @@ const currentAge = computed(() => {
 <style scoped>
 .calendar {
   width: 100%;
-  max-width: 800px;
+  max-width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 20px;
+  gap: 12px;
+  padding: 12px;
 }
 
 .days-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 8px;
+  gap: 4px;
 }
 
 .day-button {
   aspect-ratio: 1;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   background: rgba(255, 255, 255, 0.15);
   color: white;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -134,8 +134,6 @@ const currentAge = computed(() => {
   justify-content: center;
   -webkit-tap-highlight-color: transparent;
   padding: 0;
-  min-width: 40px;
-  min-height: 40px;
 }
 
 @media (hover: hover) {
@@ -187,11 +185,22 @@ const currentAge = computed(() => {
 
 @media (max-width: 768px) {
   .calendar {
-    padding: 15px;
+    padding: 8px;
+    gap: 8px;
   }
 
   .day-button {
-    font-size: 1rem;
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 360px) {
+    .days-grid {
+      gap: 3px;
+    }
+    .day-button {
+      font-size: 0.8rem;
+      border-radius: 4px;
+    }
   }
 }
 </style> 
