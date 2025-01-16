@@ -32,7 +32,7 @@
         <div v-for="(num, index) in verticalSumSequence" 
              :key="'sum-'+index" 
              class="day-button"
-             :class="{ 'highlight': num % 2 === 0 }">{{ num }}</div>
+             :class="{ 'highlight': isDuplicateInVerticalSum(num) }">{{ num }}</div>
       </div>
 
       <div class="divider"></div>
@@ -100,6 +100,11 @@ const currentAge = computed(() => {
   }
   return age
 })
+
+// 在 script setup 部分添加新的计算函数
+const isDuplicateInVerticalSum = (num) => {
+  return verticalSumSequence.value.filter(n => n === num).length >= 2
+}
 </script>
 
 <style scoped>
