@@ -83,7 +83,7 @@ const yearSequence = computed(() => {
 // 計算垂直加總序列
 const verticalSumSequence = computed(() => {
   return Array.from({ length: 12 }, (_, i) => {
-    const sum = (weekdaySequence.value[i % 7] || 0) +
+    const sum = (weekdaySequence.value[i] || 0)%7 +
                (monthSequence.value[i] || 0) +
                (yearSequence.value[i] || 0)
     return ((sum - 1) % 12) + 1
