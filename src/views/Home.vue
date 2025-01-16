@@ -123,6 +123,9 @@ const handleReset = () => {
 onMounted(() => {
   // ... 初始化邏輯
 })
+
+// 如果需要使用基礎路徑
+const baseUrl = import.meta.env.VITE_BASE_URL
 </script>
 
 <style>
