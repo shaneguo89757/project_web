@@ -1,44 +1,47 @@
 <template>
   <BaseWelcomeForm>
-    <div class="sequence-container">
+    <div class="calendar">
       <!-- 星期序列 -->
-      <div class="number-row">
+      <div class="days-grid">
         <div v-for="num in weekdaySequence" 
              :key="'week-'+num" 
-             class="number">{{ num }}</div>
+             class="day-button">{{ num }}</div>
+        <div v-for="i in (12 - weekdaySequence.length)"
+             :key="'empty-'+i"
+             class="day-button empty"></div>
       </div>
 
       <!-- 月份序列 -->
-      <div class="number-row">
+      <div class="days-grid">
         <div v-for="num in monthSequence" 
              :key="'month-'+num" 
-             class="number">{{ num }}</div>
+             class="day-button">{{ num }}</div>
       </div>
 
       <!-- 年份序列 -->
-      <div class="number-row">
+      <div class="days-grid">
         <div v-for="num in yearSequence" 
              :key="'year-'+num" 
-             class="number">{{ num }}</div>
+             class="day-button">{{ num }}</div>
       </div>
 
       <div class="divider"></div>
 
       <!-- 垂直加總 -->
-      <div class="number-row">
+      <div class="days-grid">
         <div v-for="(num, index) in verticalSumSequence" 
              :key="'sum-'+index" 
-             class="number"
+             class="day-button"
              :class="{ 'highlight': num % 2 === 0 }">{{ num }}</div>
       </div>
 
       <div class="divider"></div>
 
       <!-- 年齡網格 -->
-      <div class="age-grid">
+      <div class="days-grid">
         <div v-for="num in 72" 
              :key="'age-'+num" 
-             class="number"
+             class="day-button"
              :class="{
                'past': num < currentAge,
                'current': num === currentAge,
@@ -100,34 +103,57 @@ const currentAge = computed(() => {
 </script>
 
 <style scoped>
-.sequence-container {
+.calendar {
   width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   padding: 20px;
 }
 
-.number-row, .age-grid {
+.days-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 8px;
 }
 
-.number {
+.day-button {
   aspect-ratio: 1;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.15);
   color: white;
-  font-size: 1rem;
-  cursor: default;
+  font-size: 1.2rem;
+  cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   -webkit-tap-highlight-color: transparent;
+  padding: 0;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+@media (hover: hover) {
+  .day-button:hover:not(:disabled):not(.empty) {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media (hover: none) {
+  .day-button:active:not(:disabled):not(.empty) {
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
+.day-button:active:not(:disabled):not(.empty) {
+  transform: translateY(0);
 }
 
 .divider {
@@ -143,23 +169,29 @@ const currentAge = computed(() => {
 
 .past {
   color: rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.1);
 }
 
 .current {
   background: rgba(255, 255, 255, 0.25);
   color: #4cd137;
-  box-shadow: 0 2px 0 #4cd137;
+}
+
+.future {
+  color: white;
+}
+
+.empty {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {
-  .sequence-container {
+  .calendar {
     padding: 15px;
-    gap: 10px;
   }
 
-  .number {
-    font-size: 0.9rem;
+  .day-button {
+    font-size: 1rem;
   }
 }
 </style> 

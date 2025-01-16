@@ -99,6 +99,8 @@ const handleSelect = (day) => {
   padding: 10px;
   text-align: center;
   font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
 }
 
 .days-grid {
@@ -111,9 +113,10 @@ const handleSelect = (day) => {
   aspect-ratio: 1;
   border: none;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -126,7 +129,7 @@ const handleSelect = (day) => {
 @media (hover: hover) {
   .day-button:hover:not(:disabled) {
     transform: translateY(-2px);
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.2);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   }
 }
