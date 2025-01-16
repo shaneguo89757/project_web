@@ -7,37 +7,17 @@
       />
 
       <transition name="fade" mode="out-in">
-        <NameInput
-          v-if="!userName"
-          @submit="handleNameSubmit"
-        />
-
-        <YearInput
-          v-else-if="!birthYear"
-          :user-name="userName"
-          @submit="handleYearSubmit"
-        />
-
-        <MonthSelect
-          v-else-if="!birthMonth"
-          :user-name="userName"
-          @select="handleMonthSelect"
-        />
-
-        <DaySelect
-          v-else-if="!birthDay"
-          :user-name="userName"
-          :year="birthYear"
-          :month="birthMonth"
-          @select="handleDaySelect"
-        />
-
-        <FinalGreeting
-          v-else
+        <component :is="currentComponent"
           :user-name="userName"
           :birth-year="birthYear"
           :birth-month="birthMonth"
           :birth-day="birthDay"
+          :year="birthYear"
+          :month="birthMonth"
+          :day="birthDay"
+          @submit="handleComponentSubmit"
+          @select="handleComponentSelect"
+          @next="handleNext"
         />
       </transition>
     </div>
@@ -45,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useUser } from '../composables/useUser'
 import { useError } from '../composables/useError'
 import { STORAGE_KEYS } from '../constants'
@@ -57,6 +37,7 @@ import YearInput from '../components/welcome/YearInput.vue'
 import MonthSelect from '../components/welcome/MonthSelect.vue'
 import DaySelect from '../components/welcome/DaySelect.vue'
 import FinalGreeting from '../components/welcome/FinalGreeting.vue'
+import SequenceDisplay from '../components/welcome/SequenceDisplay.vue'
 
 // 核心邏輯
 const { userName, saveUser, loadUser } = useUser()
@@ -66,6 +47,39 @@ const { error, handleError } = useError()
 const birthYear = ref('')
 const birthMonth = ref('')
 const birthDay = ref('')
+const showSequence = ref(false)
+
+// 計算當前應該顯示的組件
+const currentComponent = computed(() => {
+  if (!userName.value) return NameInput
+  if (!birthYear.value) return YearInput
+  if (!birthMonth.value) return MonthSelect
+  if (!birthDay.value) return DaySelect
+  if (!showSequence.value) return FinalGreeting
+  return SequenceDisplay
+})
+
+// 添加處理下一步的函數
+const handleNext = () => {
+  showSequence.value = true
+}
+
+// 重置時也要重置 showSequence
+const handleReset = () => {
+  try {
+    userName.value = ''
+    birthYear.value = ''
+    birthMonth.value = ''
+    birthDay.value = ''
+    showSequence.value = false
+    localStorage.removeItem(STORAGE_KEYS.USER_NAME)
+    localStorage.removeItem(STORAGE_KEYS.BIRTH_YEAR)
+    localStorage.removeItem(STORAGE_KEYS.BIRTH_MONTH)
+    localStorage.removeItem(STORAGE_KEYS.BIRTH_DAY)
+  } catch (e) {
+    handleError(e)
+  }
+}
 
 // 事件處理
 const handleNameSubmit = (name) => {
@@ -104,25 +118,22 @@ const handleDaySelect = (day) => {
   }
 }
 
-const handleReset = () => {
-  try {
-    userName.value = ''
-    birthYear.value = ''
-    birthMonth.value = ''
-    birthDay.value = ''
-    localStorage.removeItem(STORAGE_KEYS.USER_NAME)
-    localStorage.removeItem(STORAGE_KEYS.BIRTH_YEAR)
-    localStorage.removeItem(STORAGE_KEYS.BIRTH_MONTH)
-    localStorage.removeItem(STORAGE_KEYS.BIRTH_DAY)
-  } catch (e) {
-    handleError(e)
+// 添加統一的事件處理
+const handleComponentSubmit = (value) => {
+  if (!userName.value) {
+    handleNameSubmit(value)
+  } else if (!birthYear.value) {
+    handleYearSubmit(value)
   }
 }
 
-// 初始化
-onMounted(() => {
-  // ... 初始化邏輯
-})
+const handleComponentSelect = (value) => {
+  if (!birthMonth.value) {
+    handleMonthSelect(value)
+  } else if (!birthDay.value) {
+    handleDaySelect(value)
+  }
+}
 
 // 如果需要使用基礎路徑
 const baseUrl = import.meta.env.VITE_BASE_URL
