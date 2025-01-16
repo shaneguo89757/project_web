@@ -48,10 +48,24 @@ input {
   text-align: center;
   font-size: 1.5rem !important;
   letter-spacing: 0.05em;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  color: white;
+  transition: all 0.3s ease;
 }
 
 input::placeholder {
   font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
