@@ -1,6 +1,9 @@
 <template>
   <div class="app-container">
     <div class="welcome-screen">
+      <ScreenshotButton 
+        v-if="currentComponent === SequenceDisplay"
+      />
       <ResetButton 
         v-if="userName"
         @reset="handleReset"
@@ -33,6 +36,7 @@ import { STORAGE_KEYS } from '../constants'
 
 // 導入組件
 import ResetButton from '../components/welcome/ResetButton.vue'
+import ScreenshotButton from '../components/welcome/ScreenshotButton.vue'
 import NameInput from '../components/welcome/NameInput.vue'
 import YearInput from '../components/welcome/YearInput.vue'
 import MonthSelect from '../components/welcome/MonthSelect.vue'

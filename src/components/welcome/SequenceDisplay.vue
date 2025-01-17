@@ -159,7 +159,7 @@ onMounted(() => {
 }
 
 .welcome-message {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(0, 0, 0, 0.942);
   margin-bottom: 1rem;
   padding: 1rem;
   background: rgba(255, 255, 255, 0.093);
@@ -167,12 +167,13 @@ onMounted(() => {
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.376);
   font-size: .9rem;
+  
 }
 
 .message-title {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   margin-bottom: 0.5rem;
-  color: rgba(249, 90, 124, 0.827);
+  color: rgba(255, 255, 255, 0.985);
 }
 
 .message-text {
@@ -190,7 +191,7 @@ onMounted(() => {
 
 .message-hint {
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.879);
 }
 
 .highlight-text {
@@ -330,11 +331,13 @@ onMounted(() => {
   margin-bottom: 0.5rem;
   padding-left: 0.5rem;
   font-weight: 500;
+  font-weight: bold;
 }
 
 .birth-info {
-  color: rgba(8, 8, 8, 0.989);
+  color: rgba(255, 255, 255, 0.952);
   font-weight: bold;
-  text-decoration: underline;
+  /* text-decoration: underline; */
+  font-size: 1.2rem;
 }
 </style> 
