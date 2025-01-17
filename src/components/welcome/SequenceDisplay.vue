@@ -159,7 +159,7 @@ onMounted(() => {
 
 .welcome-message {
   color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding: 1rem;
   background: rgba(255, 255, 255, 0.093);
   backdrop-filter: blur(10px);
@@ -169,7 +169,7 @@ onMounted(() => {
 
 .message-title {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: rgba(249, 90, 124, 0.827);
 }
 
@@ -183,7 +183,6 @@ onMounted(() => {
   margin-bottom: 1rem;
   li {
     margin-bottom: 0.5rem;
-    line-height: 1.5;
   }
 }
 
