@@ -1,12 +1,12 @@
 <template>
   <BaseWelcomeForm class="sequence-container" :full-width="true">
     <div class="welcome-message">
-      <h2 class="message-title">生命數字序列</h2>
+      <h2 class="message-title">本源密碼</h2>
       <p class="message-text">嗨! <span class="birth-info">{{ name }}</span> 根據您的生日  <span class="birth-info">{{ year }}年{{ month }}月{{ day }}日</span>，我們為您計算出了獨特的數字。這些數字展現了：</p>
       <ul class="message-list">
-        <li>您出生當天的星期序列</li>
-        <li>從您的生日月份開始的月份序列</li>
-        <li>您的生年數字序列</li>
+        <li>命定星宮的週期迴響</li>
+        <li>生命之輪的月相軌跡</li>
+        <li>靈魂印記的年度共振</li>
       </ul>
       <p class="message-hint">特別標註：<span class="highlight-text">紅色數字</span> 代表在垂直加總中重複出現的數字，可能暗示著您生命中的重要節點。</p>
     </div>
@@ -14,12 +14,12 @@
         <div class="calendar">
         <!-- 星期序列 -->
         <div class="sequence-section">
-            <div class="sequence-label">星期序列</div>
+            <div class="sequence-label">週期律動</div>
             <div class="days-grid">
                 <div v-for="num in weekdaySequence" 
                     :key="'week-'+num" 
                     class="day-button elementYMD"
-                    :title="`第${num}天`">{{ num }}</div>
+                    :title="`第${num}天`">{{ numberChange(num) }}</div>
                 <div v-for="i in (12 - weekdaySequence.length)"
                     :key="'empty-'+i"
                     class="day-button empty"></div>
@@ -28,55 +28,51 @@
 
         <!-- 月份序列 -->
         <div class="sequence-section">
-            <div class="sequence-label">月份序列</div>
+            <div class="sequence-label">月相能量</div>
             <div class="days-grid">
                 <div v-for="num in monthSequence" 
                     :key="'month-'+num" 
                     class="day-button elementYMD"
-                    :title="`第${num}月`">{{ num }}</div>
+                    :title="`第${num}月`">{{ numberChange(num) }}</div>
             </div>
         </div>
 
         <!-- 年份序列 -->
         <div class="sequence-section">
-            <div class="sequence-label">年份序列</div>
+            <div class="sequence-label">生命週期</div>
             <div class="days-grid">
                 <div v-for="num in yearSequence" 
                     :key="'year-'+num" 
                     class="day-button elementYMD"
-                    :title="`生命週期第${num}年`">{{ num }}</div>
+                    :title="`生命週期第${num}年`">{{ numberChange(num) }}</div>
             </div>
         </div>
 
-        <div class="divider"></div>
-
         <!-- 垂直加總 -->
         <div class="sequence-section">
-            <div class="sequence-label">數字能量</div>
+            <div class="sequence-label">靈數密碼</div>
             <div class="days-grid"> 
                 <div v-for="(num, index) in verticalSumSequence" 
                     :key="'sum-'+index" 
                     class="day-button defaultTotal"
                     :class="{ 'highlight': isDuplicateInVerticalSum(num) }"
-                    :title="isDuplicateInVerticalSum(num) ? '重要生命數字' : '生命能量數字'">{{ num }}</div>
+                    :title="isDuplicateInVerticalSum(num) ? '重要生命數字' : '生命能量數字'">{{ numberChange(num) }}</div>
             </div>
         </div>
-
-        <div class="divider"></div>
 
         <!-- 年齡網格 -->
         <div class="sequence-section">
             <div class="sequence-label">人生階段</div>
             <div class="days-grid">
-                <div v-for="num in 48" 
+                <div v-for="num in 36" 
                     :key="'age-'+num" 
                     class="day-button"
                     :class="{
-                    'past': num + 12 < currentAge,
-                    'current': num + 12 === currentAge,
-                    'future': num + 12 > currentAge
+                    'past': num + beginAge < currentAge,
+                    'current': num + beginAge === currentAge,
+                    'future': num + beginAge > currentAge
                     }"
-                    :title="num + 12 === currentAge ? '當前年齡' : `${num + 12}歲`">{{ num + 12 }}</div>
+                    >{{ num + beginAge }}</div>
             </div>
         </div>
         </div>
@@ -132,6 +128,30 @@ const currentAge = computed(() => {
     age--
   }
   return age
+})
+
+const numberChange = (num) => {
+  const thaiNumberMap = new Map([
+    [1, '๑'],
+    [2, '๒'], 
+    [3, '๓'],
+    [4, '๔'],
+    [5, '๕'],
+    [6, '๖'],
+    [7, '๗'],
+    [8, '๘'],
+    [9, '๙'],
+    [10, '๑๐'],
+    [11, '๑๑'],
+    [12, '๑๒']
+  ])
+  
+  return thaiNumberMap.get(num) || num.toString()
+}
+
+const beginAge = computed(() => {
+  const age = currentAge.value - (currentAge.value % 12) - 12
+  return age < 0 ? 0 : age
 })
 
 // 檢查垂直加總中的重複數字
@@ -329,7 +349,7 @@ onMounted(() => {
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.7);
   margin-bottom: 0.5rem;
-  padding-left: 0.5rem;
+  padding-left: 0.1rem;
   font-weight: 500;
   font-weight: bold;
 }
