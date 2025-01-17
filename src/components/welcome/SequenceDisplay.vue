@@ -1,53 +1,83 @@
 <template>
   <BaseWelcomeForm class="sequence-container" :full-width="true">
+    <div class="welcome-message">
+      <h2 class="message-title">您的生命數字序列</h2>
+      <p class="message-text">根據您的生日，我們為您計算出了獨特的數字序列。這些數字展現了：</p>
+      <ul class="message-list">
+        <li>您出生當天的星期序列</li>
+        <li>從您的生日月份開始的月份序列</li>
+        <li>您的生年數字序列</li>
+      </ul>
+      <p class="message-hint">特別標註：<span class="highlight-text">紅色數字</span> 代表在垂直加總中重複出現的數字，可能暗示著您生命中的重要節點。</p>
+    </div>
     <div class="calendarBackground">
         <div class="calendar">
         <!-- 星期序列 -->
-        <div class="days-grid">
-            <div v-for="num in weekdaySequence" 
-                :key="'week-'+num" 
-                class="day-button elementYMD">{{ num }}</div>
-            <div v-for="i in (12 - weekdaySequence.length)"
-                :key="'empty-'+i"
-                class="day-button empty"></div>
+        <div class="sequence-section">
+            <div class="sequence-label">星期序列</div>
+            <div class="days-grid">
+                <div v-for="num in weekdaySequence" 
+                    :key="'week-'+num" 
+                    class="day-button elementYMD"
+                    :title="`第${num}天`">{{ num }}</div>
+                <div v-for="i in (12 - weekdaySequence.length)"
+                    :key="'empty-'+i"
+                    class="day-button empty"></div>
+            </div>
         </div>
 
         <!-- 月份序列 -->
-        <div class="days-grid">
-            <div v-for="num in monthSequence" 
-                :key="'month-'+num" 
-                class="day-button elementYMD">{{ num }}</div>
+        <div class="sequence-section">
+            <div class="sequence-label">月份序列</div>
+            <div class="days-grid">
+                <div v-for="num in monthSequence" 
+                    :key="'month-'+num" 
+                    class="day-button elementYMD"
+                    :title="`第${num}月`">{{ num }}</div>
+            </div>
         </div>
 
         <!-- 年份序列 -->
-        <div class="days-grid">
-            <div v-for="num in yearSequence" 
-                :key="'year-'+num" 
-                class="day-button elementYMD">{{ num }}</div>
+        <div class="sequence-section">
+            <div class="sequence-label">年份序列</div>
+            <div class="days-grid">
+                <div v-for="num in yearSequence" 
+                    :key="'year-'+num" 
+                    class="day-button elementYMD"
+                    :title="`生命週期第${num}年`">{{ num }}</div>
+            </div>
         </div>
 
         <div class="divider"></div>
 
         <!-- 垂直加總 -->
-        <div class="days-grid"> 
-            <div v-for="(num, index) in verticalSumSequence" 
-                :key="'sum-'+index" 
-                class="day-button defaultTotal"
-                :class="{ 'highlight': isDuplicateInVerticalSum(num) }">{{ num }}</div>
+        <div class="sequence-section">
+            <div class="sequence-label">數字能量</div>
+            <div class="days-grid"> 
+                <div v-for="(num, index) in verticalSumSequence" 
+                    :key="'sum-'+index" 
+                    class="day-button defaultTotal"
+                    :class="{ 'highlight': isDuplicateInVerticalSum(num) }"
+                    :title="isDuplicateInVerticalSum(num) ? '重要生命數字' : '生命能量數字'">{{ num }}</div>
+            </div>
         </div>
 
         <div class="divider"></div>
 
         <!-- 年齡網格 -->
-        <div class="days-grid">
-            <div v-for="num in 48" 
-                :key="'age-'+num" 
-                class="day-button"
-                :class="{
-                'past': num + 12 < currentAge,
-                'current': num + 12 === currentAge,
-                'future': num + 12 > currentAge
-                }">{{ num + 12 }}</div>
+        <div class="sequence-section">
+            <div class="sequence-label">人生階段</div>
+            <div class="days-grid">
+                <div v-for="num in 48" 
+                    :key="'age-'+num" 
+                    class="day-button"
+                    :class="{
+                    'past': num + 12 < currentAge,
+                    'current': num + 12 === currentAge,
+                    'future': num + 12 > currentAge
+                    }"
+                    :title="num + 12 === currentAge ? '當前年齡' : `${num + 12}歲`">{{ num + 12 }}</div>
+            </div>
         </div>
         </div>
     </div>
@@ -117,6 +147,46 @@ const isDuplicateInVerticalSum = (num) => {
   margin: 0;
 }
 
+.welcome-message {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.093);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.376);
+}
+
+.message-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: rgba(249, 90, 124, 0.827);
+}
+
+.message-text {
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.message-list {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+  li {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+  }
+}
+
+.message-hint {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.highlight-text {
+  color: rgb(238, 98, 98);
+  font-weight: bold;
+}
+
 .calendar {
   width: 100%;
   max-width: 100%;
@@ -161,9 +231,9 @@ const isDuplicateInVerticalSum = (num) => {
 
 @media (hover: hover) {
   .day-button:hover:not(:disabled):not(.empty) {
-    transform: none;
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: none;
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -237,5 +307,17 @@ const isDuplicateInVerticalSum = (num) => {
     font-size: 0.8rem;
     border-radius: 4px;
   }
+}
+
+.sequence-section {
+  margin-bottom: 1rem;
+}
+
+.sequence-label {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  font-weight: 500;
 }
 </style> 
