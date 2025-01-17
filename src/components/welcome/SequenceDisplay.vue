@@ -123,11 +123,7 @@ const verticalSumSequence = computed(() => {
 const currentAge = computed(() => {
   const today = new Date()
   let age = today.getFullYear() - Number(props.year)
-  if (today.getMonth() + 1 < props.month || 
-      (today.getMonth() + 1 === props.month && today.getDate() < props.day)) {
-    age--
-  }
-  return age
+  return age 
 })
 
 const numberChange = (num) => {
