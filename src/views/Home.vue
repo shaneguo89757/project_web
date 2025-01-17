@@ -1,6 +1,9 @@
 <template>
   <div class="app-container">
     <div class="welcome-screen">
+      <ContactButton 
+        v-if="currentComponent === SequenceDisplay"
+      />
       <ScreenshotButton 
         v-if="currentComponent === SequenceDisplay"
       />
@@ -37,6 +40,7 @@ import { STORAGE_KEYS } from '../constants'
 // 導入組件
 import ResetButton from '../components/welcome/ResetButton.vue'
 import ScreenshotButton from '../components/welcome/ScreenshotButton.vue'
+import ContactButton from '../components/welcome/ContactButton.vue'
 import NameInput from '../components/welcome/NameInput.vue'
 import YearInput from '../components/welcome/YearInput.vue'
 import MonthSelect from '../components/welcome/MonthSelect.vue'

@@ -16,12 +16,6 @@ import html2canvas from 'html2canvas'
 
 const shareContent = async () => {
   try {
-    // 檢查是否支援分享API
-    if (!navigator.share) {
-      alert('您的瀏覽器不支援分享功能')
-      return
-    }
-
     // 找到要截圖的元素（改為截取整個 app-container）
     const element = document.querySelector('.app-container')
     if (!element) return
@@ -61,20 +55,51 @@ const shareContent = async () => {
     // 創建要分享的文件
     const file = new File([blob], '生命數字序列.png', { type: 'image/png' })
 
-    // 調用分享API
-    await navigator.share({
-      title: '生命數字序列',
-      text: '查看我的生命數字序列！',
-      files: [file]
-    })
+    try {
+      // 首先嘗試使用原生分享 API
+      if (navigator.share) {
+        await navigator.share({
+          title: '生命數字序列',
+          text: '查看我的生命數字序列！',
+          files: [file]
+        })
+      } else {
+        // 如果不支援原生分享，則提供下載選項
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = '生命數字序列.png'
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        URL.revokeObjectURL(url)
+        
+        // 提示用戶可以分享到 Instagram
+        const instagramUsername = 'tarotjason'
+        if (confirm('圖片已下載！是否要前往 Instagram 諮詢老師？')) {
+          // 嘗試使用 Instagram URL scheme 開啟應用程式
+          const instagramAppUrl = `instagram://user?username=${instagramUsername}`
+          const webUrl = `https://www.instagram.com/${instagramUsername}`
+          
+          // 先嘗試開啟 App，如果失敗則開啟網頁版
+          window.location.href = instagramAppUrl
+          setTimeout(() => {
+            if (document.hidden || document.webkitHidden) {
+              return // App 已經成功開啟
+            }
+            window.location.href = webUrl
+          }, 2500)
+        }
+      }
+    } catch (error) {
+      if (error.name === 'AbortError') return // 用戶取消分享
+      console.error('分享失敗:', error)
+      alert('分享失敗，請稍後再試')
+    }
 
   } catch (error) {
-    if (error.name === 'AbortError') {
-      // 用戶取消分享，不做任何處理
-      return
-    }
-    console.error('分享失敗:', error)
-    alert('分享失敗，請稍後再試')
+    console.error('截圖失敗:', error)
+    alert('截圖失敗，請稍後再試')
   }
 }
 </script>
