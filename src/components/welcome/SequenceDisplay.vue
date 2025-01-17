@@ -85,7 +85,7 @@ const yearSequence = computed(() => {
 // 計算垂直加總序列
 const verticalSumSequence = computed(() => {
   return Array.from({ length: 12 }, (_, i) => {
-    const sum = (weekdaySequence.value[i] || 0)%7 +
+    const sum = (weekdaySequence.value[i] || 0) +
                (monthSequence.value[i] || 0) +
                (yearSequence.value[i] || 0)
     return ((sum - 1) % 12) + 1
@@ -131,6 +131,7 @@ const isDuplicateInVerticalSum = (num) => {
   backdrop-filter: blur(10px);
   border-radius: 10px;
   padding: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.376);
 }
 
 .days-grid {
