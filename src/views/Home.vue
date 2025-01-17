@@ -12,6 +12,7 @@
           :birth-year="birthYear"
           :birth-month="birthMonth"
           :birth-day="birthDay"
+          :name="userName"
           :year="birthYear"
           :month="birthMonth"
           :day="birthDay"

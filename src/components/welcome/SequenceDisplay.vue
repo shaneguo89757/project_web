@@ -1,8 +1,8 @@
 <template>
   <BaseWelcomeForm class="sequence-container" :full-width="true">
     <div class="welcome-message">
-      <h2 class="message-title">您的生命數字序列</h2>
-      <p class="message-text">根據您的生日，我們為您計算出了獨特的數字序列。這些數字展現了：</p>
+      <h2 class="message-title">生命數字序列</h2>
+      <p class="message-text">嗨! <span class="birth-info">{{ name }}</span> 根據您的生日  <span class="birth-info">{{ year }}年{{ month }}月{{ day }}日</span>，我們為您計算出了獨特的數字。這些數字展現了：</p>
       <ul class="message-list">
         <li>您出生當天的星期序列</li>
         <li>從您的生日月份開始的月份序列</li>
@@ -89,6 +89,7 @@ import { computed, onMounted } from 'vue'
 import BaseWelcomeForm from './BaseWelcomeForm.vue'
 
 const props = defineProps({
+  name: { type: String, required: true },
   year: { type: [Number, String], required: true },
   month: { type: [Number, String], required: true },
   day: { type: [Number, String], required: true }
@@ -165,29 +166,30 @@ onMounted(() => {
   backdrop-filter: blur(10px);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.376);
+  font-size: .9rem;
 }
 
 .message-title {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin-bottom: 0.5rem;
   color: rgba(249, 90, 124, 0.827);
 }
 
 .message-text {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   line-height: 1.5;
 }
 
 .message-list {
   margin-left: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   li {
-    margin-bottom: 0.5rem;
+    margin-bottom: rem;
   }
 }
 
 .message-hint {
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -328,5 +330,11 @@ onMounted(() => {
   margin-bottom: 0.5rem;
   padding-left: 0.5rem;
   font-weight: 500;
+}
+
+.birth-info {
+  color: rgba(8, 8, 8, 0.989);
+  font-weight: bold;
+  text-decoration: underline;
 }
 </style> 
