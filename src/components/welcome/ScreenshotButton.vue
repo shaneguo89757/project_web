@@ -81,12 +81,16 @@ const shareContent = async () => {
 
 <style scoped>
 .share-button {
+  position: fixed;
+  top: 20px;
+  right: 120px;
+  z-index: 100;
   padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
+  border: none;
   border-radius: 20px;
-  color: white;
+  color: #666;
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -94,11 +98,13 @@ const shareContent = async () => {
   align-items: center;
   gap: 6px;
   -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .share-button:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .share-button:active {
@@ -112,6 +118,8 @@ svg {
 
 @media (max-width: 768px) {
   .share-button {
+    top: 16px;
+    right: 100px;
     padding: 6px 12px;
     font-size: 0.8rem;
   }
