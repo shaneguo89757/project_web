@@ -85,7 +85,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import BaseWelcomeForm from './BaseWelcomeForm.vue'
 
 const props = defineProps({
@@ -133,10 +133,20 @@ const currentAge = computed(() => {
   return age
 })
 
-// 在 script setup 部分添加新的计算函数
+// 檢查垂直加總中的重複數字
 const isDuplicateInVerticalSum = (num) => {
   return verticalSumSequence.value.filter(n => n === num).length >= 2
 }
+
+// 組件掛載時滾動到底部
+onMounted(() => {
+  setTimeout(() => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth'
+    })
+  }, 100)
+})
 </script>
 
 <style scoped>
