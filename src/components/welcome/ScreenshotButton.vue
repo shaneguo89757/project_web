@@ -1,47 +1,86 @@
 <template>
-  <button class="screenshot-button" @click="takeScreenshot">
+  <button class="share-button" @click="shareContent">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-      <circle cx="12" cy="12" r="3"/>
-      <path d="M8 8h.01"/>
+      <circle cx="18" cy="5" r="3"/>
+      <circle cx="6" cy="12" r="3"/>
+      <circle cx="18" cy="19" r="3"/>
+      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
     </svg>
-    截圖
+    分享
   </button>
 </template>
 
 <script setup>
 import html2canvas from 'html2canvas'
 
-const takeScreenshot = async () => {
+const shareContent = async () => {
   try {
-    // 找到要截圖的元素
-    const element = document.querySelector('.sequence-container')
+    // 檢查是否支援分享API
+    if (!navigator.share) {
+      alert('您的瀏覽器不支援分享功能')
+      return
+    }
+
+    // 找到要截圖的元素（改為截取整個 app-container）
+    const element = document.querySelector('.app-container')
     if (!element) return
 
-    // 創建canvas
+    // 獲取視窗大小
+    const windowHeight = window.innerHeight
+    const elementHeight = element.scrollHeight
+
+    // 創建預覽圖
     const canvas = await html2canvas(element, {
       backgroundColor: null,
-      scale: 2, // 提高清晰度
+      scale: window.devicePixelRatio * 2,
       logging: false,
-      useCORS: true
+      useCORS: true,
+      allowTaint: true,
+      width: element.offsetWidth,
+      height: Math.min(elementHeight, windowHeight),
+      windowWidth: element.offsetWidth,
+      windowHeight: Math.min(elementHeight, windowHeight),
+      x: 0,
+      y: window.scrollY,
+      scrollY: window.scrollY,
+      scrollX: 0,
+      onclone: (clonedDoc) => {
+        // 在克隆的文檔中添加背景樣式
+        const clonedElement = clonedDoc.querySelector('.app-container')
+        if (clonedElement) {
+          clonedElement.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+          clonedElement.style.minHeight = '100vh'
+        }
+      }
     })
 
-    // 轉換為圖片並下載
-    const link = document.createElement('a')
-    link.download = `生命數字序列_${new Date().getTime()}.png`
-    link.href = canvas.toDataURL('image/png')
-    link.click()
+    // 轉換為 blob
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1.0))
+    
+    // 創建要分享的文件
+    const file = new File([blob], '生命數字序列.png', { type: 'image/png' })
+
+    // 調用分享API
+    await navigator.share({
+      title: '生命數字序列',
+      text: '查看我的生命數字序列！',
+      files: [file]
+    })
+
   } catch (error) {
-    console.error('截圖失敗:', error)
+    if (error.name === 'AbortError') {
+      // 用戶取消分享，不做任何處理
+      return
+    }
+    console.error('分享失敗:', error)
+    alert('分享失敗，請稍後再試')
   }
 }
 </script>
 
 <style scoped>
-.screenshot-button {
-  position: fixed;
-  top: 20px;
-  left: 20px;
+.share-button {
   padding: 8px 16px;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
@@ -54,15 +93,15 @@ const takeScreenshot = async () => {
   display: flex;
   align-items: center;
   gap: 6px;
-  z-index: 100;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.screenshot-button:hover {
+.share-button:hover {
   background: rgba(255, 255, 255, 0.25);
   transform: translateY(-2px);
 }
 
-.screenshot-button:active {
+.share-button:active {
   transform: translateY(0);
 }
 
@@ -72,9 +111,7 @@ svg {
 }
 
 @media (max-width: 768px) {
-  .screenshot-button {
-    top: 10px;
-    left: 10px;
+  .share-button {
     padding: 6px 12px;
     font-size: 0.8rem;
   }
