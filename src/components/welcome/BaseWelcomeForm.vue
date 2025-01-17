@@ -1,14 +1,28 @@
 <template>
-  <div class="welcome-form">
+  <div class="welcome-form" :class="{ 'full-width': fullWidth }">
     <slot></slot>
   </div>
 </template>
+
+<script setup>
+defineProps({
+  fullWidth: {
+    type: Boolean,
+    default: false
+  }
+})
+</script>
 
 <style scoped>
 .welcome-form {
   width: 100%;
   max-width: 400px;
   padding: 1rem;
+}
+
+.welcome-form.full-width {
+  max-width: none;
+  padding: 0;
 }
 
 :deep(.welcome-header) {

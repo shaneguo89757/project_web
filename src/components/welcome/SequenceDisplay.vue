@@ -1,5 +1,5 @@
 <template>
-  <BaseWelcomeForm>
+  <BaseWelcomeForm class="sequence-container" :full-width="true">
     <div class="calendar">
       <!-- 星期序列 -->
       <div class="days-grid">
@@ -108,27 +108,36 @@ const isDuplicateInVerticalSum = (num) => {
 </script>
 
 <style scoped>
+.sequence-container {
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
 .calendar {
   width: 100%;
   max-width: 100%;
-  margin: 0 auto;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 12px;
+  gap: 1px;
+  padding: 5px;
 }
 
 .days-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 4px;
+  width: 100%;
+  box-sizing: border-box !important;
 }
 
 .day-button {
   aspect-ratio: 1;
   border: none;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
   color: white;
   font-size: 0.9rem;
   cursor: pointer;
@@ -143,20 +152,14 @@ const isDuplicateInVerticalSum = (num) => {
 
 @media (hover: hover) {
   .day-button:hover:not(:disabled):not(.empty) {
-    transform: translateY(-2px);
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  }
-}
-
-@media (hover: none) {
-  .day-button:active:not(:disabled):not(.empty) {
-    background: rgba(255, 255, 255, 0.25);
+    transform: none;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: none;
   }
 }
 
 .day-button:active:not(:disabled):not(.empty) {
-  transform: translateY(0);
+  transform: none;
 }
 
 .divider {
@@ -166,20 +169,22 @@ const isDuplicateInVerticalSum = (num) => {
 }
 
 .highlight {
-  background: rgba(255, 255, 255, 0.25);
-  color: #4cd137;
+  background: rgba(255, 192, 203, 0.2);
+  color: white;
 }
 
 .past {
-  color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
 }
 
 .current {
-  background: rgba(255, 255, 255, 0.25);
-  color: #4cd137;
+  background: rgba(255, 192, 203, 0.2);
+  color: white;
 }
 
 .future {
+  background: rgba(255, 255, 255, 0.15);
   color: white;
 }
 
@@ -188,24 +193,31 @@ const isDuplicateInVerticalSum = (num) => {
   pointer-events: none;
 }
 
+.empty-light {
+  background: rgba(255, 255, 255, 0.05);
+  visibility: visible;
+}
+
+.eight {
+  background: rgba(255, 192, 203, 0.2); /* 淡粉色背景 */
+  color: white;
+}
+
 @media (max-width: 768px) {
   .calendar {
-    padding: 8px;
+    padding: 5px;
     gap: 8px;
   }
+}
 
-  .day-button {
-    font-size: 0.85rem;
+@media (max-width: 360px) {
+  .days-grid {
+    gap: 3px;
   }
-
-  @media (max-width: 360px) {
-    .days-grid {
-      gap: 3px;
-    }
-    .day-button {
-      font-size: 0.8rem;
-      border-radius: 4px;
-    }
+  
+  .day-button {
+    font-size: 0.8rem;
+    border-radius: 4px;
   }
 }
 </style> 

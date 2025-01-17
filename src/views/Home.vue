@@ -180,9 +180,9 @@ const baseUrl = import.meta.env.VITE_BASE_URL
 /* 移動設備優化 */
 @media (max-width: 768px) {
   .welcome-screen {
-    padding: 16px;
+    padding: 0;
     align-items: flex-start;
-    padding-top: 10vh;
+    padding-top: 70%;
   }
 }
 

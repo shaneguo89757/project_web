@@ -53,7 +53,7 @@ body {
 /* 移動設備優化 */
 @media (max-width: 768px) {
   .main-content {
-    padding: 16px;
+    padding: 5px;
   }
 }
 </style> 
