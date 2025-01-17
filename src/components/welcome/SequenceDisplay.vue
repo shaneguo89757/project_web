@@ -8,7 +8,7 @@
         <li>生命之輪的月相軌跡</li>
         <li>靈魂印記的年度共振</li>
       </ul>
-      <p class="message-hint">特別標註：<span class="highlight-text">紅色數字</span> 代表在垂直加總中重複出現的數字，可能暗示著您生命中的重要節點。</p>
+      <p class="message-hint">特別標註：<span class="highlight-text">紅色密碼</span> 代表在靈數中重複出現，可能暗示著您生命中的重要節點。</p>
     </div>
     <div class="calendarBackground">
         <div class="calendar">
