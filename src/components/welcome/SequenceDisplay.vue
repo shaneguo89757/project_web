@@ -1,53 +1,55 @@
 <template>
   <BaseWelcomeForm class="sequence-container" :full-width="true">
-    <div class="calendar">
-      <!-- 星期序列 -->
-      <div class="days-grid">
-        <div v-for="num in weekdaySequence" 
-             :key="'week-'+num" 
-             class="day-button">{{ num }}</div>
-        <div v-for="i in (12 - weekdaySequence.length)"
-             :key="'empty-'+i"
-             class="day-button empty"></div>
-      </div>
+    <div class="calendarBackground">
+        <div class="calendar">
+        <!-- 星期序列 -->
+        <div class="days-grid">
+            <div v-for="num in weekdaySequence" 
+                :key="'week-'+num" 
+                class="day-button elementYMD">{{ num }}</div>
+            <div v-for="i in (12 - weekdaySequence.length)"
+                :key="'empty-'+i"
+                class="day-button empty"></div>
+        </div>
 
-      <!-- 月份序列 -->
-      <div class="days-grid">
-        <div v-for="num in monthSequence" 
-             :key="'month-'+num" 
-             class="day-button">{{ num }}</div>
-      </div>
+        <!-- 月份序列 -->
+        <div class="days-grid">
+            <div v-for="num in monthSequence" 
+                :key="'month-'+num" 
+                class="day-button elementYMD">{{ num }}</div>
+        </div>
 
-      <!-- 年份序列 -->
-      <div class="days-grid">
-        <div v-for="num in yearSequence" 
-             :key="'year-'+num" 
-             class="day-button">{{ num }}</div>
-      </div>
+        <!-- 年份序列 -->
+        <div class="days-grid">
+            <div v-for="num in yearSequence" 
+                :key="'year-'+num" 
+                class="day-button elementYMD">{{ num }}</div>
+        </div>
 
-      <div class="divider"></div>
+        <div class="divider"></div>
 
-      <!-- 垂直加總 -->
-      <div class="days-grid">
-        <div v-for="(num, index) in verticalSumSequence" 
-             :key="'sum-'+index" 
-             class="day-button"
-             :class="{ 'highlight': isDuplicateInVerticalSum(num) }">{{ num }}</div>
-      </div>
+        <!-- 垂直加總 -->
+        <div class="days-grid"> 
+            <div v-for="(num, index) in verticalSumSequence" 
+                :key="'sum-'+index" 
+                class="day-button defaultTotal"
+                :class="{ 'highlight': isDuplicateInVerticalSum(num) }">{{ num }}</div>
+        </div>
 
-      <div class="divider"></div>
+        <div class="divider"></div>
 
-      <!-- 年齡網格 -->
-      <div class="days-grid">
-        <div v-for="num in 72" 
-             :key="'age-'+num" 
-             class="day-button"
-             :class="{
-               'past': num < currentAge,
-               'current': num === currentAge,
-               'future': num > currentAge
-             }">{{ num }}</div>
-      </div>
+        <!-- 年齡網格 -->
+        <div class="days-grid">
+            <div v-for="num in 48" 
+                :key="'age-'+num" 
+                class="day-button"
+                :class="{
+                'past': num + 12 < currentAge,
+                'current': num + 12 === currentAge,
+                'future': num + 12 > currentAge
+                }">{{ num + 12 }}</div>
+        </div>
+        </div>
     </div>
   </BaseWelcomeForm>
 </template>
@@ -121,7 +123,13 @@ const isDuplicateInVerticalSum = (num) => {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 4px;
+}
+
+.calendarBackground {
+  background: rgba(255, 255, 255, 0.093);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
   padding: 5px;
 }
 
@@ -139,7 +147,8 @@ const isDuplicateInVerticalSum = (num) => {
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.05);
   color: white;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -147,7 +156,6 @@ const isDuplicateInVerticalSum = (num) => {
   align-items: center;
   justify-content: center;
   -webkit-tap-highlight-color: transparent;
-  padding: 0;
 }
 
 @media (hover: hover) {
@@ -164,28 +172,38 @@ const isDuplicateInVerticalSum = (num) => {
 
 .divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.15);
-  margin: 2px 0;
+  background: rgba(28, 4, 74, 0.177);
+}
+
+.elementYMD {
+    background: rgba(53, 67, 159, 0.18);
+    color: rgba(0, 0, 0, 0.785);
+}
+
+.defaultTotal {
+    background: rgba(53, 67, 159, 0.395);
+    border: 1px solid rgba(53, 67, 159, 0.395); 
+    color: rgba(0, 0, 0, 0.785);
 }
 
 .highlight {
-  background: rgba(255, 192, 203, 0.2);
-  color: white;
+    color: rgb(238, 98, 98);
 }
 
 .past {
   background: rgba(255, 255, 255, 0.15);
-  color: white;
+  color: rgba(0, 0, 0, 0.13);
 }
 
 .current {
-  background: rgba(255, 192, 203, 0.2);
-  color: white;
+  background: rgba(249, 90, 124, 0.827);
+  color: rgba(255, 255, 255, 0.757);
+  text-decoration: underline;
 }
 
 .future {
   background: rgba(255, 255, 255, 0.15);
-  color: white;
+  color: rgba(0, 0, 0, 0.566);
 }
 
 .empty {
@@ -205,8 +223,7 @@ const isDuplicateInVerticalSum = (num) => {
 
 @media (max-width: 768px) {
   .calendar {
-    padding: 5px;
-    gap: 8px;
+    gap: 4px;
   }
 }
 
